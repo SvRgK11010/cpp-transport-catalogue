@@ -7,21 +7,6 @@ namespace Input {
     using namespace Catalogue;
     using namespace Geo;
 
-    string ReadLine()
-    {
-        string s;
-        getline(cin, s);
-        return s;
-    }
-
-    int ReadLineWithNumber() {
-
-        int result = 0;
-        cin >> result;
-        ReadLine();
-        return result;
-    }
-
     std::pair<std::string, std::string> SplitRequest(std::string& query) {
         pair<string, string> result;
         auto sp = query.find_first_not_of(' '); //начало запроса
@@ -154,35 +139,34 @@ namespace Input {
         return bus;
     }
 
-    void CreateTransportCatalogue(TransportCatalogue& transport_cat) {
-
+    TransportCatalogue CreateTransportCatalogue(std::istream& input) {
+        TransportCatalogue transport_cat;
         vector<string> buses_queries;
         vector<pair<string, string>> stops_queries;
-        int queries_count = ReadLineWithNumber();
+        int queries_count;
+        input >> queries_count;
 
         //Накопление запросов по видам: остановки, маршруты
         for (int i = 0; i < queries_count; i++) {
-            string query = ReadLine();
+            string query;
+            getline(input, query);
             if (query[0] == 'B') {
                 buses_queries.push_back(move(query));
             }
             else if (query[0] == 'S') {
                 stops_queries.push_back(SplitRequest(query));
+                Stop stop = ParseStop(stops_queries.back().first);
+                transport_cat.AddStop(move(stop));
             }
             query.clear();
         }
-        //Добавление остановок в каталог
-       
-        for (auto& stop : stops_queries) {
-            Stop stoop = ParseStop(stop.first);
-            transport_cat.AddStop(move(stoop));
-        }
+        
         //Добавление дистанций в каталог
         for (auto& stop : stops_queries) {
             if (stop.second.empty()) { continue; }
             auto dist = ParseDistances(stop.second, transport_cat);
             for (auto& [key, val] : dist) {
-                transport_cat.FillDistances(key.first, key.second, val);
+                transport_cat.SetDistances(key.first, key.second, val);
             }
         }
         stops_queries.clear();

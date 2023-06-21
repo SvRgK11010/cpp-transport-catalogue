@@ -19,16 +19,16 @@ namespace Catalogue {
 	void TransportCatalogue::AddStop(const Stop& stop) {
 		all_stops_.push_back(stop);
 		Stop* ref_stop = &(all_stops_.back());
-		stopname_to_stop_.insert({ string_view{ref_stop->stop_name_} , ref_stop });
+		stopname_to_stop_.insert({ string_view{ref_stop->name_} , ref_stop });
 	}
 
-	void TransportCatalogue::FillDistances(Stop* from, Stop* to, size_t met) {
+	void TransportCatalogue::SetDistances(Stop* from, Stop* to, size_t met) {
 		if (from != nullptr && to != nullptr) {
 			distances_.insert({ {from, to}, met });
 		}
 	}
 
-	size_t TransportCatalogue::ComputeDistanceToMeters(Stop* from, Stop* to) {
+	size_t TransportCatalogue::GetDistanceToMeters(Stop* from, Stop* to) {
 		if (distances_.count({ from, to })) {
 			return distances_.at({ from, to });
 		}
@@ -67,7 +67,7 @@ namespace Catalogue {
 			auto& bus = busname_to_bus_.at(bus_name);
 			for (int i = 0; i < bus_info.stop_count_ - 1; i++) {
 				bus_info.geo_route_length_ += ComputeDistance(bus->stops_[i]->coordinates_, bus->stops_[i + 1]->coordinates_);
-				bus_info.m_route_length_ += ComputeDistanceToMeters(bus->stops_[i], bus->stops_[i + 1]);
+				bus_info.m_route_length_ += GetDistanceToMeters(bus->stops_[i], bus->stops_[i + 1]);
 			}
 		}
 		bus_info.curvature = bus_info.m_route_length_ / bus_info.geo_route_length_;
@@ -101,19 +101,19 @@ namespace Catalogue {
 		return static_cast<int>(all_buses_.size());
 	}
 
-	std::deque<Stop> TransportCatalogue::PrintStops() {
+	std::deque<Stop> TransportCatalogue::GetAllStops() {
 		return all_stops_;
 	}
 
-	std::deque<Bus> TransportCatalogue::PrintBuses() {
+	std::deque<Bus> TransportCatalogue::GetAllBuses() {
 		return all_buses_;
 	}
 
-	std::unordered_map<std::string_view, Stop*> TransportCatalogue::PrintStopMap() {
+	std::unordered_map<std::string_view, Stop*> TransportCatalogue::GetStopMap() {
 		return stopname_to_stop_;
 	}
 
-	std::unordered_map<std::string_view, Bus*> TransportCatalogue::PrintBusMap() {
+	std::unordered_map<std::string_view, Bus*> TransportCatalogue::GetBusMap() {
 		return busname_to_bus_;
 	}
 

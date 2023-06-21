@@ -16,18 +16,18 @@ namespace Catalogue {
 	using namespace Geo;
 
 	struct Stop {
-		std::string stop_name_;
+		std::string name_;
 		Coordinates coordinates_;
 
 		explicit Stop(std::string name, Coordinates coord)
-			: stop_name_(name), coordinates_(coord)
+			: name_(name), coordinates_(coord)
 		{
 		}
 	};
 
 	struct StopHasher {
 		size_t operator()(std::pair<const Stop*, const Stop*> stops) const {
-			return stop_hash(static_cast<const void*>(stops.first)) * 41 * 41 + stop_hash(static_cast<const void*>(stops.second)) * 41;
+			return stop_hash(static_cast<const void*>(stops.first)) * 41 + stop_hash(static_cast<const void*>(stops.second));
 		}
 
 		size_t operator()(const Stop* stop) const {
@@ -67,7 +67,7 @@ namespace Catalogue {
 
 		void AddStop(const Stop& stop);
 
-		void FillDistances(Stop* from, Stop* to, size_t met);
+		void SetDistances(Stop* from, Stop* to, size_t met);
 
 		Stop* GetStop(std::string_view stop_name);
 
@@ -79,19 +79,21 @@ namespace Catalogue {
 
 		Stop* GetStopForBus(std::string_view stop_name);
 
-		size_t ComputeDistanceToMeters(Stop* from, Stop* to);
+		size_t GetDistanceToMeters(Stop* from, Stop* to);
 
 		int GetStopCount();
 
 		int GetBusCount();
 
-		std::deque<Stop> PrintStops();
 
-		std::deque<Bus> PrintBuses();
+		//Данные функции (90-98) использовались при тестировании других методов каталога, чтобы проверить, что именно записалось в поля класса
+		std::deque<Stop> GetAllStops();
 
-		std::unordered_map<std::string_view, Stop*> PrintStopMap();
+		std::deque<Bus> GetAllBuses();
 
-		std::unordered_map<std::string_view, Bus*> PrintBusMap();
+		std::unordered_map<std::string_view, Stop*> GetStopMap();
+
+		std::unordered_map<std::string_view, Bus*> GetBusMap();
 
 		std::unordered_map<std::pair<Stop*, Stop*>, size_t, StopHasher> GetDistMap();
 

@@ -10,10 +10,6 @@
 namespace Input {
 	using namespace Catalogue;
 
-	std::string ReadLine();
-
-	int ReadLineWithNumber();
-
 	std::pair<std::string, std::string> SplitRequest(std::string& query);
 
 	Stop ParseStop(std::string& query);
@@ -22,5 +18,5 @@ namespace Input {
 
 	Bus ParseBus(std::string& query, TransportCatalogue& transport_cat);
 
-	void CreateTransportCatalogue(TransportCatalogue& transport_cat);
+	TransportCatalogue CreateTransportCatalogue(std::istream& input);
 }

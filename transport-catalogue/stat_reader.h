@@ -12,6 +12,10 @@ namespace Output {
 	using namespace Geo;
 	using namespace Input;
 
-	void PrintInfo(TransportCatalogue& transport_catalogue);
+	void PrintStopInfo(const StopInfo& stop);
+
+	void PrintBusInfo(const BusInfo& bus);
+
+	void ReadStat(std::istream& input, TransportCatalogue& transport_catalogue, std::ostream& output);
 
 }
