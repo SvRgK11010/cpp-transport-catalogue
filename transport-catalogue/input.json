@@ -1,0 +1,43 @@
+{
+    "base_requests": [
+      {
+        "type": "Bus",
+        "name": "114",
+        "stops": ["Morskoy vokzal", "Rivyerskiy most"],
+        "is_roundtrip": false
+      },
+      {
+        "type": "Stop",
+        "name": "Rivyerskiy most",
+        "latitude": 43.587795,
+        "longitude": 39.716901,
+        "road_distances": {"Morskoy vokzal": 850}
+      },
+      {
+        "type": "Stop",
+        "name": "Morskoy vokzal",
+        "latitude": 43.581969,
+        "longitude": 39.719848,
+        "road_distances": {"Rivyerskiy most": 850}
+      }
+    ],
+    "render_settings": {
+      "width": 200,
+      "height": 200,
+      "padding": 30,
+      "stop_radius": 5,
+      "line_width": 14,
+      "bus_label_font_size": 20,
+      "bus_label_offset": [7, 15],
+      "stop_label_font_size": 20,
+      "stop_label_offset": [7, -3],
+      "underlayer_color": [255,255,255,0.85],
+      "underlayer_width": 3,
+      "color_palette": ["green", [255,160,0],"red"]
+    },
+    "stat_requests": [
+      { "id": 1, "type": "Map" },
+      { "id": 2, "type": "Stop", "name": "Rivyerskiy most" },
+      { "id": 3, "type": "Bus", "name": "114" }
+    ]
+  }
