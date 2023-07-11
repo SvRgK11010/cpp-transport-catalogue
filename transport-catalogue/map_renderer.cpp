@@ -21,7 +21,7 @@ namespace map_renderer {
 		return bus_color.buscolors.at(bus_name);
 	}
 
-	svg::Polyline MapRenderer::GetBusLines(const domain::Bus* bus, SphereProjector projector, const BusColor& colors) const {
+	svg::Polyline MapRenderer::VisualizeBusLines(const domain::Bus* bus, SphereProjector projector, const BusColor& colors) const {
 		svg::Polyline bus_line;
 		std::vector<domain::Stop*> stops = bus->stops_;
 		if (!bus->roundtrip_) {
@@ -39,7 +39,7 @@ namespace map_renderer {
 		return bus_line;
 	}
 
-	std::vector<svg::Text> MapRenderer::GetBusName(const domain::Bus* bus, SphereProjector projector, const BusColor& colors) const {
+	std::vector<svg::Text> MapRenderer::VisualizeBusName(const domain::Bus* bus, SphereProjector projector, const BusColor& colors) const {
 		svg::Text begin;
 		svg::Text begin_u;
 		std::vector<svg::Text> result;
@@ -81,7 +81,7 @@ namespace map_renderer {
 		return result;
 	}
 
-	std::vector<svg::Circle> MapRenderer::GetStopPoints(const std::map<std::string_view, domain::Stop*> stops, SphereProjector projector) const {
+	std::vector<svg::Circle> MapRenderer::VisualizeStopPoints(const std::map<std::string_view, domain::Stop*> stops, SphereProjector projector) const {
 		std::vector<svg::Circle> result;
 		for (const auto& [name, stop] : stops) {
 			svg::Circle stop_point;
@@ -93,7 +93,7 @@ namespace map_renderer {
 		return result;
 	}
 
-	std::vector<svg::Text> MapRenderer::GetStopsNames(const std::map<std::string_view, domain::Stop*> stops, SphereProjector projector) const {
+	std::vector<svg::Text> MapRenderer::VisualizeStopsNames(const std::map<std::string_view, domain::Stop*> stops, SphereProjector projector) const {
 		std::vector<svg::Text> result;
 		for (const auto& [name, stop] : stops) {
 			svg::Text name;
@@ -139,21 +139,21 @@ namespace map_renderer {
 		
 		svg::Document result;
 		for (const auto& bus : buses) {
-			auto line = GetBusLines(bus, projector, colors);			
+			auto line = VisualizeBusLines(bus, projector, colors);
 			result.Add(line);			
 		}
 	
 		for (const auto& bus : buses) {
-			auto stops = GetBusName(bus, projector, colors);
+			auto stops = VisualizeBusName(bus, projector, colors);
 			for (size_t i = 0; i<stops.size(); i++) {
 				result.Add(stops[i]);
 			}
 		}
 
-		for (const auto& stop : GetStopPoints(stops, projector)) {
+		for (const auto& stop : VisualizeStopPoints(stops, projector)) {
 			result.Add(stop);
 		}
-		for (const auto& stop : GetStopsNames(stops, projector)) {
+		for (const auto& stop : VisualizeStopsNames(stops, projector)) {
 			result.Add(stop);
 		}
 

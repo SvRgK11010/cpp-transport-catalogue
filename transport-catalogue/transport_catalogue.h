@@ -39,9 +39,9 @@ namespace catalogue {
 
 		TransportCatalogue();
 
-		void AddBus(std::string& name, std::vector<domain::Stop*> stops, bool roundtrip);
+		void AddBus(const std::string& name, const std::vector<domain::Stop*>& stops, bool roundtrip);
 
-		void AddStop(std::string& name, geo::Coordinates geo);
+		void AddStop(const std::string& name, const geo::Coordinates& geo);
 
 		void FillDistances(Stop* from, Stop* to, int met);
 

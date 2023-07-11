@@ -7,7 +7,7 @@ namespace catalogue {
 	TransportCatalogue::TransportCatalogue()
 	{}
 
-	void TransportCatalogue::AddBus(std::string& name, std::vector<domain::Stop*> stops, bool roundtrip) {
+	void TransportCatalogue::AddBus(const std::string& name, const std::vector<domain::Stop*>& stops, bool roundtrip) {
 		domain::Bus bus(name, stops, roundtrip);
 		all_buses_.push_back(bus);
 		Bus* ref_bus = &all_buses_.back();
@@ -15,17 +15,10 @@ namespace catalogue {
 		for (auto& stop : stops) {
 			stop->buses_on_stop_.insert(string_view{ ref_bus->bus_number_ });
 		}
-
-		//for (auto& stop : stops) {
-		//	stop_to_buses_[stop].insert(ref_bus );
-		//}
-		//for (size_t i = 0; i < bus.stops_.size(); i++) {
-		//	stop_to_buses_[bus.stops_[i]].insert(ref_bus);
-		//}
 	}
 
-	void TransportCatalogue::AddStop(std::string& name, geo::Coordinates geo) {
-		domain::Stop stop(move(name), geo);
+	void TransportCatalogue::AddStop(const std::string& name, const geo::Coordinates& geo) {
+		domain::Stop stop((name), geo);
 		all_stops_.push_back(stop);
 		Stop* ref_stop = &(all_stops_.back());
 		stopname_to_stop_.insert({ string_view{ref_stop->stop_name_} , ref_stop });

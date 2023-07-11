@@ -110,11 +110,10 @@ namespace map_renderer {
         : render_settings_(settings)
         {}
 
-        svg::Polyline GetBusLines(const domain::Bus* bus, SphereProjector projector, const BusColor& colors) const;
-        std::vector<svg::Text> GetBusName(const domain::Bus* bus, SphereProjector projector, const BusColor& colors) const;
-        std::vector<svg::Circle> GetStopPoints(const std::map<std::string_view, domain::Stop*> stops, SphereProjector projector) const;
-        std::vector<svg::Text> GetStopsNames(const std::map<std::string_view, domain::Stop*> stops, SphereProjector projector) const;
-
+        svg::Polyline VisualizeBusLines(const domain::Bus* bus, SphereProjector projector, const BusColor& colors) const;
+        std::vector<svg::Text> VisualizeBusName(const domain::Bus* bus, SphereProjector projector, const BusColor& colors) const;
+        std::vector<svg::Circle> VisualizeStopPoints(const std::map<std::string_view, domain::Stop*> stops, SphereProjector projector) const;
+        std::vector<svg::Text> VisualizeStopsNames(const std::map<std::string_view, domain::Stop*> stops, SphereProjector projector) const;
 
         svg::Document RenderBuses(const catalogue::TransportCatalogue& db) const;
 
