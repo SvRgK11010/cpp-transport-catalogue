@@ -12,10 +12,10 @@ namespace request_handler {
 
 		requests.FillCatalogue(catalogue1);
 
-		const auto& render_settings = requests.GetRenderSettings().AsMap();
+		const auto& render_settings = requests.GetRenderSettings().AsDict();
 		const auto& render = requests.SetRenderSettings(render_settings);
 		const auto& stat_requests = requests.GetStatRequests();
-		
+
 		auto out = requests.ResponseToStatRequests(stat_requests, catalogue1, render);
 
 		json::Print(json::Document{ std::move(out)}, std::cout);

@@ -8,7 +8,7 @@ namespace map_renderer {
 
 	BusColor DistributeColors(const std::vector<domain::Bus*>& buses, const std::vector<svg::Color>& color_palette) {
 		BusColor colors;
-		int color = 0;
+		size_t color = 0;
 		for (const auto& bus : buses) {
 			colors.buscolors.insert({ bus->bus_number_, color });
 			if (color < (color_palette.size() - 1)) { color++; }
@@ -44,8 +44,8 @@ namespace map_renderer {
 		svg::Text begin_u;
 		std::vector<svg::Text> result;
 		//общие настройки
-		begin.SetPosition(projector(bus->stops_[0]->coordinates_));		
-		begin.SetOffset(render_settings_.bus_label_offset);		
+		begin.SetPosition(projector(bus->stops_[0]->coordinates_));
+		begin.SetOffset(render_settings_.bus_label_offset);
 		begin.SetFontSize(render_settings_.bus_label_font_size);
 		begin.SetFontFamily("Verdana");
 		begin.SetFontWeight("bold");
@@ -73,7 +73,7 @@ namespace map_renderer {
 			svg::Text end_u{ begin_u };
 			end.SetPosition(projector(bus->stops_[bus->stops_.size() - 1]->coordinates_));
 			end_u.SetPosition(projector(bus->stops_[bus->stops_.size() - 1]->coordinates_));
-			
+
 			result.push_back(end_u);
 			result.push_back(end);
 		}
@@ -95,7 +95,7 @@ namespace map_renderer {
 
 	std::vector<svg::Text> MapRenderer::VisualizeStopsNames(const std::map<std::string_view, domain::Stop*> stops, SphereProjector projector) const {
 		std::vector<svg::Text> result;
-		for (const auto& [name, stop] : stops) {
+		for (const auto& [name_, stop] : stops) {
 			svg::Text name;
 			svg::Text name_u;
 
@@ -136,16 +136,16 @@ namespace map_renderer {
 			}
 		}
 		SphereProjector projector(db_stop_coords.begin(), db_stop_coords.end(), render_settings_.width, render_settings_.height, render_settings_.padding);
-		
+
 		svg::Document result;
 		for (const auto& bus : buses) {
 			auto line = VisualizeBusLines(bus, projector, colors);
-			result.Add(line);			
+			result.Add(line);
 		}
-	
+
 		for (const auto& bus : buses) {
 			auto stops = VisualizeBusName(bus, projector, colors);
-			for (size_t i = 0; i<stops.size(); i++) {
+			for (size_t i = 0; i < stops.size(); i++) {
 				result.Add(stops[i]);
 			}
 		}
@@ -161,5 +161,5 @@ namespace map_renderer {
 		return result;
 	}
 
-	
+
 }

@@ -7,7 +7,7 @@
 #include "geo.h"
 #include "request_handler.h"
 #include "json_reader.h"
-#include "log_duration.h"
+//#include "log_duration.h"
 #include "map_renderer.h"
 
 using namespace std;
@@ -18,7 +18,7 @@ int main() {
 
 	ifstream input;
 	input.open("input.json");
-	
+
 	request_handler::RequestsProcessing(input);
 
 }
