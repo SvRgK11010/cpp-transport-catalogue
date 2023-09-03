@@ -55,6 +55,11 @@ namespace catalogue {
 
 		std::vector<Bus*> GetBusesForMap() const;
 
+		std::deque<Bus> GetAllBuses() const;
+
+		std::deque<Stop> GetAllStops() const;
+
+		int GetDistance (Stop* from, Stop* to) const;
 
 	private:
 		std::deque<Stop> all_stops_;

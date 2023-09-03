@@ -21,4 +21,6 @@ int main() {
 
 	request_handler::RequestsProcessing(input);
 
+	//request_handler::RequestsProcessing(cin);
+
 }

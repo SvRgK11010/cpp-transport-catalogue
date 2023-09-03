@@ -15,8 +15,13 @@ namespace request_handler {
 		const auto& render_settings = requests.GetRenderSettings().AsDict();
 		const auto& render = requests.SetRenderSettings(render_settings);
 		const auto& stat_requests = requests.GetStatRequests();
+		graph::DirectedWeightedGraph<double> tc_graph(catalogue1.GetAllStops().size());
+		catalogue::RouteSettings settings = requests.SetRouteSettings(requests.GetRouteSettings().AsDict());
+		catalogue::TransportRouter transport_router(catalogue1, settings);
+		transport_router.BuildGraph(tc_graph);
+		graph::Router<double> router(tc_graph);
 
-		auto out = requests.ResponseToStatRequests(stat_requests, catalogue1, render);
+		auto out = requests.ResponseToStatRequests(stat_requests, catalogue1, render, router, transport_router);
 
 		json::Print(json::Document{ std::move(out)}, std::cout);
 

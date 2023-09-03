@@ -5,11 +5,13 @@
 #include "json.h"
 #include "transport_catalogue.h"
 #include "geo.h"
-#include "log_duration.h"
+//#include "log_duration.h"
 #include "map_renderer.h"
+#include "router.h"
+#include "transport_router.h"
 
 namespace jsonreader {
-	
+
 	class JsonReader {
 		using StopData = std::pair<std::string, geo::Coordinates>;
 		using BusData = std::tuple <std::string, std::vector<domain::Stop*>, bool>;
@@ -22,11 +24,14 @@ namespace jsonreader {
 		const json::Node& GetBaseRequests() const;
 		const json::Node& GetStatRequests() const;
 		const json::Node& GetRenderSettings() const;
+		const json::Node& GetRouteSettings() const;
 
 		void FillCatalogue(catalogue::TransportCatalogue& catalogue);
 		const map_renderer::MapRenderer SetRenderSettings(const json::Dict& settings) const;
+		const catalogue::RouteSettings SetRouteSettings(const json::Dict& settings) const;
+		
 		//Формирование ответа на запрос к базе
-		json::Node ResponseToStatRequests(const json::Node& all_requests, const catalogue::TransportCatalogue& catalogue, const map_renderer::MapRenderer& map_renderer) const;
+		json::Node ResponseToStatRequests(const json::Node& all_requests, const catalogue::TransportCatalogue& catalogue, const map_renderer::MapRenderer& map_renderer, const graph::Router<double> router, const catalogue::TransportRouter t_router) const;
 
 	private:
 		json::Document requests_;
@@ -34,10 +39,11 @@ namespace jsonreader {
 		StopData SetStop(const json::Dict& stop_requests);
 		BusData SetBus(const json::Dict& bus_recuests, catalogue::TransportCatalogue& catalogue);
 		DistData SetDistances(const json::Dict& stop_requests, catalogue::TransportCatalogue& catalogue);
-
+		
 		const json::Node FillBusInfo(const json::Dict& bus_info, const catalogue::TransportCatalogue& catalogue) const;
 		const json::Node FillStopInfo(const json::Dict& stop_info, const catalogue::TransportCatalogue& catalogue) const;
 		const json::Node FillMapInfo(const json::Dict& map_info, const map_renderer::MapRenderer& map_renderer, const catalogue::TransportCatalogue& catalogue) const;
+		const json::Node FillRouteInfo(const json::Dict& route_info, const graph::Router<double>& router, const catalogue::TransportCatalogue& catalogue, const catalogue::TransportRouter& t_router) const;
 
 		// Возвращает информацию о маршруте (запрос Bus)
 		std::optional<domain::BusInfo> GetBusInfo(const std::string_view& bus_name, const catalogue::TransportCatalogue& catalogue) const;
@@ -46,6 +52,6 @@ namespace jsonreader {
 		const std::set<std::string_view> GetStopInfo(const std::string_view& stop_name, const catalogue::TransportCatalogue& catalogue) const;
 
 		svg::Document RenderMap(const map_renderer::MapRenderer& map_renderer, const catalogue::TransportCatalogue& catalogue) const;
-		
+
 	};
 }
