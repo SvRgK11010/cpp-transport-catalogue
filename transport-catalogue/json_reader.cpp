@@ -263,7 +263,7 @@ namespace jsonreader {
 		const auto from = catalogue.GetStop(stop_from);
 		const auto to = catalogue.GetStop(stop_to);
 		const int id = route_info.at("id").AsInt();
-		const auto& found_route = router.BuildRoute(from->id_, to->id_);
+		const auto& found_route = t_router.FindRoute(from, to, router);
 		if (!found_route.has_value()) {
 			result = json::Builder{}
 				.StartDict()
