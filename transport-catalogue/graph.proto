@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package proto_graph;
+
+message Edge {  
+    int32 from = 1;
+    int32 to = 2;
+    double weight = 3;
+    int32 span_count = 4;
+    string bus_num = 5;
+}
+
+message VertexID {
+    repeated int32 edge_id = 1;
+}
+
+message Graph {
+    repeated Edge edges = 1;
+    repeated VertexID vincidence_lists_ = 2;
+}

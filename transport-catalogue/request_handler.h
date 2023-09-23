@@ -1,14 +1,10 @@
-#pragma once
-#include <optional>
-#include <iostream>
-#include "transport_catalogue.h"
-#include "json_reader.h"
-#include "json.h"
-#include "map_renderer.h"
-#include "svg.h"
+#include "serialization.h"
+
 
 namespace request_handler {
 
-	void RequestsProcessing(std::istream& input);
+	void RequestsProcessingMakeBase(std::istream& input);
+
+	void RequestsProcessingMakeAnswers(std::istream& input);
 
 }

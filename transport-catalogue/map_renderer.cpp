@@ -2,13 +2,15 @@
 
 namespace map_renderer {
 
+
 	bool IsZero(double value) {
 		return std::abs(value) < EPSILON;
 	}
 
+
 	BusColor DistributeColors(const std::vector<domain::Bus*>& buses, const std::vector<svg::Color>& color_palette) {
 		BusColor colors;
-		size_t color = 0;
+		int color = 0;
 		for (const auto& bus : buses) {
 			colors.buscolors.insert({ bus->bus_number_, color });
 			if (color < (color_palette.size() - 1)) { color++; }
@@ -35,6 +37,7 @@ namespace map_renderer {
 		bus_line.SetStrokeLineCap(svg::StrokeLineCap::ROUND);
 		bus_line.SetStrokeLineJoin(svg::StrokeLineJoin::ROUND);
 		bus_line.SetStrokeColor(render_settings_.color_palette[FindBusColor(colors, bus->bus_number_)]);
+		
 
 		return bus_line;
 	}
@@ -161,5 +164,11 @@ namespace map_renderer {
 		return result;
 	}
 
+	void MapRenderer::SetRenderSettings(const RenderSettings& settings) {
+		render_settings_ = settings;
+	}
 
+	RenderSettings MapRenderer::GetRenderSettings() const {
+		return render_settings_;
+	}
 }

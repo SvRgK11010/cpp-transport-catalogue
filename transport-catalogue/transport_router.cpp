@@ -1,6 +1,9 @@
 #include "transport_router.h"
 
 namespace catalogue {
+	void TransportRouter::SetRouteSettings(const RouteSettings& settings) {
+		rs_ = settings;
+	}
 
 	void TransportRouter::AddEdgeToGraph(Stop* from, Stop* to, Stop* from_dist, double& weight, size_t& span, const std::string& bus, graph::DirectedWeightedGraph<double>& graph) {
 		double MET_TO_KM = 1000.0;

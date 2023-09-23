@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package proto_transport_router;
+
+import "graph.proto";
+
+message RouteSettings {
+    double bus_velocity = 1;
+    uint32 bus_wait_time = 2;
+}
+
+message TransportRouter{
+    RouteSettings settings = 1;
+    proto_graph.Graph graph = 2;
+}

@@ -15,9 +15,12 @@ namespace catalogue {
 		
 	class TransportRouter {
 	public:
+
 		TransportRouter(const catalogue::TransportCatalogue& catalogue, RouteSettings settings)
 			:tc_(catalogue), rs_(settings) {}
 
+
+		void SetRouteSettings(const RouteSettings& settings);
 		void AddEdgeToGraph(Stop* from, Stop* to, Stop* from_dist, double& weight, size_t& span, const std::string& bus, graph::DirectedWeightedGraph<double>& graph);
 		void BuildGraph(graph::DirectedWeightedGraph<double>& graph);
 		std::optional<graph::Router<double>::RouteInfo> FindRoute(Stop* from, Stop* to, const graph::Router<double>& router) const;
@@ -26,7 +29,6 @@ namespace catalogue {
 	private:
 		const catalogue::TransportCatalogue& tc_;
 		RouteSettings rs_;
-
-
+		
 	};
 }

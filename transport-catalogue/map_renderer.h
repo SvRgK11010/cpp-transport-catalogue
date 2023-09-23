@@ -105,10 +105,10 @@ namespace map_renderer {
 
     class MapRenderer {
     public:
-
         MapRenderer(const RenderSettings& settings)
-        : render_settings_(settings)
-        {}
+        : render_settings_(settings){
+        }    
+
 
         svg::Polyline VisualizeBusLines(const domain::Bus* bus, SphereProjector projector, const BusColor& colors) const;
         std::vector<svg::Text> VisualizeBusName(const domain::Bus* bus, SphereProjector projector, const BusColor& colors) const;
@@ -117,9 +117,12 @@ namespace map_renderer {
 
         svg::Document RenderBuses(const catalogue::TransportCatalogue& db) const;
 
+        void SetRenderSettings(const RenderSettings& settings);
+        RenderSettings GetRenderSettings() const;
+
 
     private:
-        RenderSettings render_settings_;      
+        RenderSettings render_settings_;
 
     };
 }

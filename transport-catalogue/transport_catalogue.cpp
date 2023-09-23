@@ -86,4 +86,8 @@ namespace catalogue {
 			return distances_.at({ to, from });
 		}
 	}
+
+	std::unordered_map<std::pair<Stop*, Stop*>, int, StopHasher> TransportCatalogue::GetDistances() const {
+		return distances_;
+	}
 }

@@ -61,6 +61,8 @@ namespace catalogue {
 
 		int GetDistance (Stop* from, Stop* to) const;
 
+		std::unordered_map<std::pair<Stop*, Stop*>, int, StopHasher> GetDistances() const;
+
 	private:
 		std::deque<Stop> all_stops_;
 		std::deque<Bus> all_buses_;
